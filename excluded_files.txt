@@ -1,0 +1,11 @@
+.git/
+.vscode/
+.vscode/settings.json
+.gitignore
+excluded_files.txt
+LICENSE
+push.sh
+README.md
+requirements.txt
+boot_out.txt
+ble-hid-ring.code-workspace

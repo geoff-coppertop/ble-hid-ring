@@ -1,0 +1,4 @@
+asyncio
+seeed_xiao_nrf52840
+adafruit_ble
+adafruit_lsm6ds
