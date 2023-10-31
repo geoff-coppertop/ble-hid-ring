@@ -17,8 +17,8 @@ Using this [Ring With Mouse Buttons Wheel](https://www.instructables.com/Ring-Wi
 
 ## Hardware
 
-| Part | Source |
-| - | - |
+| Part |
+| - |
 | [Leap Motion](https://ca.robotshop.com/products/leap-motion-controller) |
 | [nRF52840](https://www.seeedstudio.com/Seeed-XIAO-BLE-Sense-nRF52840-p-5253.html) |
 | [Push Button Switch](https://www.amazon.ca/dp/B06Y6DDG8K?psc=1&ref=ppx_yo2ov_dt_b_product_details) |
