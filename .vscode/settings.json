@@ -1,3 +1,6 @@
 {
-  "python.formatting.provider": "black"
+  "python.formatting.provider": "black",
+  "circuitpython.board.version": null,
+  "circuitpython.board.vid": "0x2886",
+  "circuitpython.board.pid": "0x0045"
 }
