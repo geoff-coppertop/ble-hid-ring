@@ -145,7 +145,7 @@ class LEDCommunicator:
         self.__next = value
 
     @property
-    def async task(self):
+    async def task(self):
         with DigitalInOut(LED_RED) as led_red, DigitalInOut(
             LED_GREEN
         ) as led_green, DigitalInOut(LED_BLUE) as led_blue:
@@ -154,7 +154,10 @@ class LEDCommunicator:
             led_blue.switch_to_output(value=False)
 
             update_from_next = False
-
+            temp_colour = Colour.OFF
+            current_colour = Colour.OFF
+            next_colour = Colour.OFF
+            
             while True:
                 update_from_next ^= True
 
@@ -169,9 +172,9 @@ class LEDCommunicator:
                 # print(f"Current colour: {current_colour}")
                 # print(f"Next colour: {next_colour}")
 
-                led_red.value = not current_colour.red
-                led_green.value = not current_colour.green
-                led_blue.value = not current_colour.blue
+                led_red.value = not current_colour.RED
+                led_green.value = not current_colour.GREEN
+                led_blue.value = not current_colour.BLUE
 
                 await asyncio.sleep(0.5)
 
