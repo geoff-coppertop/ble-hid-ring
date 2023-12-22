@@ -3,7 +3,7 @@ import asyncio
 from adafruit_lsm6ds.lsm6ds3 import LSM6DS3
 from enum import Enum
 from data_producer import DataProducer
-from vector import Vecotr
+from vector import Vector
 from seeed_xiao_nrf52840 import IMU
 
 

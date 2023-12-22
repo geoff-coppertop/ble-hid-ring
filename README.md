@@ -34,9 +34,14 @@ DCS ships with an old version of the Leap Motion libraries
 
 ### Ring
 
-Load [circuitpython](https://circuitpython.org/board/Seeed_XIAO_nRF52840_Sense/) onto the devboard.
+#### Load [CircuitPython](https://circuitpython.org/board/Seeed_XIAO_nRF52840_Sense/) onto the devboard.
+1. Download latest CircuitPython .UF2
+2. Enter bootloader mode by clicking the reset button twice quickly.
+3. Copy the .UF2 file to the XIAO-SENSE drive. Once copy is complete it will automatically reboot.
+4. Confirm that the device now shows up with name CIRCUITPY.
+5. CircuitPython is now successfully installed.
 
-Setup & activate a python virtual environment to talk to the devboard used for the ring.
+#### Setup & activate a python virtual environment (MacOS)
 
 ```bash
 virtualenv /tmp/ble-hid-ring
@@ -45,8 +50,27 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-Load the software on to the devboard.
+#### Setup & activate a python virtual environment (Windows)
+
+```
+winget install Python
+python -m pip install --user pipx
+pipx install virtualenv
+virtualenv /path/to/ble-hid-ring/folder
+cd /path/to/ble-hid-ring/folder
+.\Scripts\activate
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+#### Load the software on to the devboard (MacOS)
 
 ```bash
 ./push.sh <path to devboard>
+```
+
+#### Load the software on to the devboard (Windows)
+
+```
+./push.ps1 <path to devboard>
 ```

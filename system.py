@@ -3,23 +3,29 @@ import asyncio
 from button import Button
 from data_producer import DataProducer
 from enum import Enum
+from radio import RadioState
+from battery import BatteryState
+from led import LEDState
 
 
 class SystemState(Enum):
-    """"""
+    """System State Enumeration"""
 
-    SLEEP
-    ACTIVE_BUTTONS
-    ACTIVE_IMU
+    SLEEP = None
+    ACTIVE = None
+    ACTIVE_BUTTONS = None
+    ACTIVE_IMU = None
 
 
 SystemState.SLEEP = SystemState()
 SystemState.ACTIVE = SystemState()
+SystemState.ACTIVE_BUTTONS = SystemState()
+SystemState.ACTIVE_IMU = SystemState()
 
 
 class SystemController:
-    BUTTON_COMBO_IMU_TOGGLE = {Button.DOWN, Button.Left}
-    BUTTON_COMBO_POWER_OFF = {Button.UP, Button.Left}
+    BUTTON_COMBO_IMU_TOGGLE = {Button.DOWN, Button.LEFT}
+    BUTTON_COMBO_POWER_OFF = {Button.UP, Button.LEFT}
 
     def __init__(self, battery, button, imu, led, radio):
         self.__state = SystemState.SLEEP
@@ -45,10 +51,10 @@ class SystemController:
     async def task(self):
         while True:
             if self.__state is SystemState.SLEEP:
-                self.handle_sleep()
+                self.sleep_handler()
 
             elif self.__state is SystemState.ACTIVE:
-                self.handle_active()
+                self.active_handler()
 
             await self.__event_wait()
 
@@ -67,8 +73,13 @@ class SystemController:
         self.__radio.stop()
 
     def sleep_handler(self):
-        if len(button.pressed) > 0:
+        if len(self.__button.pressed) > 0:
             self.__radio.start()
+
+    # not sure this is the intent, just put it here so it runs
+    def active_handler(self):
+        self.active_buttons_handler()
+        self.active_imu_handler()
 
     def active_buttons_entry(self):
         self.__imu.stop()
@@ -78,21 +89,21 @@ class SystemController:
         if self.__radio.state is RadioState.OFF:
             return SystemState.SLEEP
 
-        elif radio.state is RadioState.ADVERTISING:
-            if battery.state is BatteryState.CHARGING:
-                state.led = LEDState.GREEN_BLUE_BLINK
-            elif battery.state is BatteryState.LOW:
-                state.led = LEDState.RED_BLUE_BLINK
+        elif self.__radio.state is RadioState.ADVERTISING:
+            if self.__battery.state is BatteryState.CHARGING:
+                self.__state.led = LEDState.GREEN_BLUE_BLINK
+            elif self.__battery.state is BatteryState.LOW:
+                self.__state.led = LEDState.RED_BLUE_BLINK
             else:
-                state.led = LEDState.BLUE_BLINK
+                self.__state.led = LEDState.BLUE_BLINK
 
         else:
-            if battery.state is BatteryState.CHARGING:
-                state.led = LEDState.GREEN_BLINK
-            elif battery.state is BatteryState.LOW:
-                state.led = LEDState.RED_BLINK
+            if self.__battery.state is BatteryState.CHARGING:
+                self.__state.led = LEDState.GREEN_BLINK
+            elif self.__battery.state is BatteryState.LOW:
+                self.__state.led = LEDState.RED_BLINK
             else:
-                state.led = LEDState.OFF
+                self.__state.led = LEDState.OFF
 
     def active_imu_entry(self):
         self.__imu.start()
@@ -102,18 +113,18 @@ class SystemController:
         if self.__radio.state is RadioState.OFF:
             return SystemState.SLEEP
 
-        elif radio.state is RadioState.ADVERTISING:
-            if battery.state is BatteryState.CHARGING:
-                state.led = LEDState.GREEN_PURPLE_BLINK
-            elif battery.state is BatteryState.LOW:
-                state.led = LEDState.RED_PURPLE_BLINK
+        elif self.__radio.state is RadioState.ADVERTISING:
+            if self.__battery.state is BatteryState.CHARGING:
+                self.__state.led = LEDState.GREEN_PURPLE_BLINK
+            elif self.__battery.state is BatteryState.LOW:
+                self.__state.led = LEDState.RED_PURPLE_BLINK
             else:
-                state.led = LEDState.PURPLE_BLINK
+                self.__state.led = LEDState.PURPLE_BLINK
 
         else:
-            if battery.state is BatteryState.CHARGING:
-                state.led = LEDState.GREEN_BLINK
-            elif battery.state is BatteryState.LOW:
-                state.led = LEDState.RED_BLINK
+            if self.__battery.state is BatteryState.CHARGING:
+                self.__state.led = LEDState.GREEN_BLINK
+            elif self.__battery.state is BatteryState.LOW:
+                self.__state.led = LEDState.RED_BLINK
             else:
-                state.led = LEDState.OFF
+                self.__state.led = LEDState.OFF

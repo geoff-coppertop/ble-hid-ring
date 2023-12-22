@@ -10,7 +10,7 @@ class Button(Enum):
     LEFT = None
     RIGHT = None
     UP = None
-    Down = None
+    DOWN = None
 
     def __init__(self, pin):
         self.pin = pin
@@ -19,7 +19,7 @@ class Button(Enum):
 Button.LEFT = Button(D0)
 Button.RIGHT = Button(D3)
 Button.UP = Button(D2)
-Button.Down = Button(D1)
+Button.DOWN = Button(D1)
 
 
 class ButtonMonitor(DataProducer):
@@ -29,7 +29,7 @@ class ButtonMonitor(DataProducer):
         Button.LEFT,
         Button.RIGHT,
         Button.UP,
-        Button.Down,
+        Button.DOWN,
     ]
 
     BUTTON_PINS = [button.pin for button in BUTTONS]
@@ -42,7 +42,7 @@ class ButtonMonitor(DataProducer):
             Button.LEFT,
             Button.RIGHT,
             Button.UP,
-            Button.Down,
+            Button.DOWN,
         ]
 
     @property

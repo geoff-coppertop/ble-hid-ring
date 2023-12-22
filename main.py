@@ -21,7 +21,7 @@ async def main():
             battery.task,
             button.task,
             imu.task,
-            led.task
+            led.task,
             radio.task,
             state.task,
         ]

@@ -35,10 +35,12 @@ class BatteryMonitor(DataProducer):
     def __init__(self):
         super().__init__()
 
+        self.__state = BatteryState.OK
+
         with Battery() as battery:
             self.__level = battery.voltage
 
-        sample_battery()
+        self.sample_battery()
 
         self.__rate = BatteryUpdateRate.SLOW
 
@@ -83,7 +85,7 @@ class BatteryMonitor(DataProducer):
     @property
     async def task(self):
         while True:
-            sample_battery()
+            self.sample_battery()
 
             if self.rate is BatteryUpdateRate.SLOW:
                 await asyncio.sleep(120)
